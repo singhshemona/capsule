@@ -7,7 +7,7 @@ export const App = () => {
   const [city, setCity] = useState('')
   const [days, setDays] = useState('0')
   const [temp, setTemp] = useState(0)
-  const [wardrobe, setWardrobe] = useState({})
+  const [wardrobe, setWardrobe] = useState([])
 
   const buildCapsule = () => {
     fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${config.KEY}&units=imperial`)
@@ -46,11 +46,11 @@ export const App = () => {
         color="#f194ff"
         onPress={buildCapsule}
       />
-      {wardrobe !== {} &&
+      {wardrobe.length != 0 &&
         <>
           <Text>Looks like it's going to be: {temp} degrees F</Text>
         
-          {Object.values(wardrobe).map((items:any, id:number) => 
+          {wardrobe.map((items:any, id:number) => 
             <Text>{items}</Text>
           )}
         </>
