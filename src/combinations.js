@@ -1,6 +1,11 @@
+const full = {
+  summer: ['dress', ],
+  springFall: ['jumpsuit']
+}
+
 const tops = {
   winter: ['sweater', 'turtleneck'],
-  summer: ['dress', 't-shirt', 'jumpsuit'],
+  summer: ['t-shirt'],
   springFall: ['long sleeved tee', 'blouse / button down']
 }
 
@@ -23,23 +28,25 @@ const accessories = {
 }
 
 export const build = (temp) => {
-  let wardrobe = []
+  let wardrobe = {full: [], tops: [], bottoms: [], footwear: [], accessories: []}
   if (temp < 40) {
-    wardrobe.push(tops.winter)
-    wardrobe.push(bottoms.winter)
-    wardrobe.push(footwear.winter)
-    wardrobe.push(accessories.winter)
+    wardrobe.tops.push(tops.winter)
+    wardrobe.bottoms.push(bottoms.winter)
+    wardrobe.footwear.push(footwear.winter)
+    wardrobe.accessories.push(accessories.winter)
   }
   else if (temp > 40 && temp < 80) {
-    wardrobe.push(tops.springFall)
-    wardrobe.push(bottoms.springFall)
-    wardrobe.push(footwear.springFall)
-    wardrobe.push(accessories.springFall)
+    wardrobe.full.push(full.springFall)
+    wardrobe.tops.push(tops.springFall)
+    wardrobe.bottoms.push(bottoms.springFall)
+    wardrobe.footwear.push(footwear.springFall)
+    wardrobe.accessories.push(accessories.springFall)
   }
   else {
-    wardrobe.push(tops.summer)
-    wardrobe.push(bottoms.summer)
-    wardrobe.push(footwear.summer)
+    wardrobe.full.push(full.summer)
+    wardrobe.tops.push(tops.summer)
+    wardrobe.bottoms.push(bottoms.summer)
+    wardrobe.footwear.push(footwear.summer)
   }
   return wardrobe
 }

@@ -7,7 +7,7 @@ export const App = () => {
   const [city, setCity] = useState('')
   const [days, setDays] = useState('0')
   const [temp, setTemp] = useState(0)
-  const [wardrobe, setWardrobe] = useState([])
+  const [wardrobe, setWardrobe] = useState({full: [], tops: [], bottoms: [], footwear: [], accessories: []})
 
   const buildCapsule = () => {
     fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${config.KEY}&units=imperial`)
@@ -46,13 +46,15 @@ export const App = () => {
         color="#f194ff"
         onPress={buildCapsule}
       />
-      {wardrobe.length != 0 &&
+      {wardrobe.footwear.length != 0 &&
         <>
           <Text>Looks like it's going to be: {temp} degrees F</Text>
-        
-          {wardrobe.map((items:any, id:number) => 
-            <Text>{items}</Text>
+          <Text>You should pack:</Text>
+          {Object.values(wardrobe).map((item:any, id:number) => 
+            <Text key={id}>{item}</Text>
           )}
+          <Text>In order to make these outfits:</Text>
+          {console.log(wardrobe.tops.map((item) => item))}
         </>
       }
     </View>
