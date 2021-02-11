@@ -1,30 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
 import { config } from '../config.js'
-// import axios from 'axios'
+import { build } from './combinations.js'
 
 export const App = () => {
   const [city, setCity] = useState('')
+  const [days, setDays] = useState('0')
+  const [temp, setTemp] = useState(0)
+  const [wardrobe, setWardrobe] = useState({})
 
-  // useEffect(() => {
-  //   const getWeather:{} = {
-  //     url: 'api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=' + config.KEY,
-  //     // method: 'GET',
-  //     // headers: { 'X-ListenAPI-Key': config.KEY },
-  //   };
-
-  //   axios(getWeather)
-  //     .then(response => {
-  //       console.log(response.data)
-  //     });
-  // }, [])
-
-  const getWeather = () => {
-    fetch('api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=' + config.KEY)
-      .then(response => console.log(response))
-      // .then(json => {
-      //     console.log(json)
-      // })
+  const buildCapsule = () => {
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${config.KEY}&units=imperial`)
+      .then(response => response.json())
+      .then(json => {
+        let averageTemp = 
+          (json.list[0].main.feels_like + 
+          json.list[9].main.feels_like + 
+          json.list[17].main.feels_like +
+          json.list[25].main.feels_like +
+          json.list[33].main.feels_like) 
+          / 5;
+        setTemp(averageTemp)
+      })
+      setWardrobe(build(temp))
   }
   
   return (
@@ -35,11 +33,28 @@ export const App = () => {
         onChangeText={text => setCity(text)}
         value={city}
       />
-      <Button
-        title="Press me"
-        color="#f194ff"
-        onPress={getWeather}
+      <Text>For how long?</Text>
+      <Text>Enter a number between 2 and 30</Text>
+      <TextInput
+        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        onChangeText={num => setDays(num)}
+        value={days}
       />
+      
+      <Button
+        title="build my capsule"
+        color="#f194ff"
+        onPress={buildCapsule}
+      />
+      {wardrobe !== {} &&
+        <>
+          <Text>Looks like it's going to be: {temp} degrees F</Text>
+        
+          {Object.values(wardrobe).map((items:any, id:number) => 
+            <Text>{items}</Text>
+          )}
+        </>
+      }
     </View>
   );
 }
