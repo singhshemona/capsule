@@ -20,7 +20,7 @@ export const App = () => {
           json.list[25].main.feels_like +
           json.list[33].main.feels_like) 
           / 5;
-        setTemp(averageTemp)
+        setTemp(Math.round(averageTemp))
       })
       setWardrobe(build(temp))
   }
@@ -49,23 +49,34 @@ export const App = () => {
       {wardrobe.footwear.length != 0 &&
         <>
           <Text>Looks like it's going to be: {temp} degrees F</Text>
-          <Text>You should pack:</Text>
-          {Object.values(wardrobe).map((item:any, id:number) => 
-            <Text key={id}>{item}</Text>
-          )}
+          <Text>You should pack the following pieces:</Text>
+          {/* {Object.values(wardrobe).map(item => <Text>{item}</Text>)} */}
+          {wardrobe.full.map((item, i) => <Text key={i}>{item}</Text>)}
+          {wardrobe.tops.map((item, i) => <Text key={i}>{item}</Text>)}
+          {wardrobe.bottoms.map((item, i) => <Text key={i}>{item}</Text>)}
+          {wardrobe.footwear.map((item, i) => <Text key={i}>{item}</Text>)}
+          {wardrobe.accessories.map((item, i) => <Text key={i}>{item}</Text>)}
+
           <Text>In order to make these outfits:</Text>
-          {console.log(wardrobe.tops.map((item) => item))}
+          {
+            temp < 40 &&
+              <>
+                <Text>{wardrobe.tops[0]} + {wardrobe.bottoms[0]}</Text>
+              </>
+          }
         </>
       }
+      
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // flex: 1,
+    // backgroundColor: '#fff',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
