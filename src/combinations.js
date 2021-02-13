@@ -1,14 +1,34 @@
 const winter = {
-  full: [],
+  full: ['thick jumpsuit / overalls'],
   tops: ['sweater', 'turtleneck'],
-  bottoms: ['joggers'],
+  bottoms: ['joggers', 'thick pants / corduroys'],
   footwear: ['boots'],
   accessories: ['scarf', 'coat']
 }
 
+export const winterOutfits = (days) => {
+  let combos = [
+    [winter.full[0], winter.tops[0], winter.footwear[0]], 
+    [winter.full[0], winter.tops[1], winter.footwear[0]],
+    [winter.tops[0], winter.bottoms[0], winter.accessories[0], winter.footwear[0]],
+    [winter.tops[0], winter.bottoms[0], winter.accessories[1], winter.footwear[0]],
+    [winter.tops[0], winter.bottoms[1], winter.accessories[0], winter.footwear[0]],
+    [winter.tops[0], winter.bottoms[1], winter.accessories[1], winter.footwear[0]],
+    [winter.full[0], winter.tops[0], winter.footwear[0]],
+    [winter.full[0], winter.tops[0], winter.footwear[0]],
+    [winter.full[0], winter.tops[0], winter.footwear[0]],
+    [winter.full[0], winter.tops[0], winter.footwear[0]],
+    [winter.full[0], winter.tops[0], winter.footwear[0]],
+    [winter.full[0], winter.tops[0], winter.footwear[0]],
+    [winter.full[0], winter.tops[0], winter.footwear[0]],
+    [winter.full[0], winter.tops[0], winter.footwear[0]],
+  ]
+  return (combos.slice(days))
+}
+
 const springFall = {
   full: ['jumpsuit'],
-  tops: ['long sleeved tee', 'blouse / button down'],
+  tops: ['long sleeved tee', 'blouse', 'button down'],
   bottoms: ['jeans / denim'],
   footwear: ['sneakers'],
   accessories: ['cardigan', 'light utility jacket / trenchcoat']
@@ -16,67 +36,22 @@ const springFall = {
 
 const summer = {
   full: ['dress'],
-  tops: ['t-shirt'],
-  bottoms: ['wide, loose, light pants'],
-  footwear: ['sandals'],
-  accessories: ['cardigan', 'light utility jacket / trenchcoat']
+  tops: ['t-shirt', 'cami'],
+  bottoms: ['shorts', 'skirt', 'wide, loose, light pants'],
+  footwear: ['sandals / flipflops'],
+  accessories: ['light shawl']
 }
-
-// const full = {
-//   summer: ['dress'],
-//   springFall: ['jumpsuit']
-// }
-
-// const tops = {
-//   winter: ['sweater', 'turtleneck'],
-//   summer: ['t-shirt'],
-//   springFall: ['long sleeved tee', 'blouse / button down']
-// }
-
-// const bottoms = {
-//   winter: ['joggers'],
-//   summer: ['wide, loose, light pants'],
-//   springFall: ['jeans / denim']
-// }
-
-// const footwear = {
-//   winter: ['boots'],
-//   summer: ['sandals'],
-//   springFall: ['sneakers']
-// }
-
-// const accessories = {
-//   winter: ['scarf', 'coat'],
-//   summer: [],
-//   springFall: ['cardigan', 'light utility jacket / trenchcoat']
-// }
 
 export const build = (temperature) => {
   let wardrobe = {full: [], tops: [], bottoms: [], footwear: [], accessories: []}
-  // let wardrobe = [{full: []}, {tops: []}, bottoms: {}, footwear: {}, accessories: {}]
   if (temperature < 40) {
     wardrobe = winter
-    // wardrobe.tops.push(tops.winter[0])
-    // wardrobe.tops.push(tops.winter[1])
-    // wardrobe.bottoms.push(bottoms.winter[0])
-    // wardrobe.footwear.push(footwear.winter[0])
-    // wardrobe.accessories.push(accessories.winter[0])
-    // wardrobe.accessories.push(accessories.winter[1])
   }
   else if (temperature > 40 && temperature < 80) {
     wardrobe = springFall
-    // wardrobe.full.push(full.springFall)
-    // wardrobe.tops.push(tops.springFall)
-    // wardrobe.bottoms.push(bottoms.springFall)
-    // wardrobe.footwear.push(footwear.springFall)
-    // wardrobe.accessories.push(accessories.springFall)
   }
   else {
     wardrobe = summer
-    // wardrobe.full.push(full.summer)
-    // wardrobe.tops.push(tops.summer)
-    // wardrobe.bottoms.push(bottoms.summer)
-    // wardrobe.footwear.push(footwear.summer)
   }
   return wardrobe
 }
