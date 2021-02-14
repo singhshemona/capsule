@@ -2,35 +2,22 @@ const winter = {
   full: ['thick jumpsuit / overalls'],
   tops: ['sweater', 'turtleneck'],
   bottoms: ['joggers', 'thick pants / corduroys'],
-  footwear: ['boots'],
-  accessories: ['scarf', 'coat']
+  accessories: ['scarf']
 }
 
-export const winterOutfits = (days) => {
-  let combos = [
-    [winter.full[0], winter.tops[0], winter.footwear[0]], 
-    [winter.full[0], winter.tops[1], winter.footwear[0]],
-    [winter.tops[0], winter.bottoms[0], winter.accessories[0], winter.footwear[0]],
-    [winter.tops[0], winter.bottoms[0], winter.accessories[1], winter.footwear[0]],
-    [winter.tops[0], winter.bottoms[1], winter.accessories[0], winter.footwear[0]],
-    [winter.tops[0], winter.bottoms[1], winter.accessories[1], winter.footwear[0]],
-    [winter.full[0], winter.tops[0], winter.footwear[0]],
-    [winter.full[0], winter.tops[0], winter.footwear[0]],
-    [winter.full[0], winter.tops[0], winter.footwear[0]],
-    [winter.full[0], winter.tops[0], winter.footwear[0]],
-    [winter.full[0], winter.tops[0], winter.footwear[0]],
-    [winter.full[0], winter.tops[0], winter.footwear[0]],
-    [winter.full[0], winter.tops[0], winter.footwear[0]],
-    [winter.full[0], winter.tops[0], winter.footwear[0]],
-  ]
-  return (combos.slice(days))
-}
+const winterCombos = [
+  ['thick jumpsuit / overalls', 'sweater'], 
+  ['thick jumpsuit / overalls', 'turtleneck'],
+  ['sweater', 'joggers', 'scarf', 'boots'],
+  ['sweater', 'thick pants / corduroys', 'scarf'],
+  ['sweater', 'thick pants / corduroys', 'scarf'],
+  ['sweater', 'thick pants / corduroys', 'scarf']
+]
 
 const springFall = {
   full: ['jumpsuit'],
   tops: ['long sleeved tee', 'blouse', 'button down'],
   bottoms: ['jeans / denim'],
-  footwear: ['sneakers'],
   accessories: ['cardigan', 'light utility jacket / trenchcoat']
 }
 
@@ -38,12 +25,11 @@ const summer = {
   full: ['dress'],
   tops: ['t-shirt', 'cami'],
   bottoms: ['shorts', 'skirt', 'wide, loose, light pants'],
-  footwear: ['sandals / flipflops'],
   accessories: ['light shawl']
 }
 
-export const build = (temperature) => {
-  let wardrobe = {full: [], tops: [], bottoms: [], footwear: [], accessories: []}
+export const createWardrobe = (temperature) => {
+  let wardrobe = {full: [], tops: [], bottoms: [], accessories: []}
   if (temperature < 40) {
     wardrobe = winter
   }
@@ -54,4 +40,12 @@ export const build = (temperature) => {
     wardrobe = summer
   }
   return wardrobe
+}
+
+export const createOutfits = (temp, days) => {
+  if (temp === winter) {
+    return (winterCombos.slice(days))
+  } else if (temp === springFall) {
+    return (springFallCombos.slice(days))
+  }
 }

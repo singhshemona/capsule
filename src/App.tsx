@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
 import { config } from '../config.js'
-import { winterOutfits, build } from './combinations.js'
+import { createOutfits, createWardrobe } from './combinations.js'
 
 export const App = () => {
   const [city, setCity] = useState('')
   const [days, setDays] = useState('0')
-  const [temp, setTemp] = useState(0)
-  const [wardrobe, setWardrobe] = useState({full: [], tops: [], bottoms: [], footwear: [], accessories: []})
+  const [temp, setTemp] = useState('')
+  const [wardrobe, setWardrobe] = useState({full: [], tops: [], bottoms: [], accessories: []})
 
   const buildCapsule = () => {
     try {
@@ -21,9 +21,13 @@ export const App = () => {
             json.list[25].main.feels_like +
             json.list[33].main.feels_like) 
             / 5;
-          setTemp(Math.round(averageTemp))
+          if(averageTemp < 40)
+            setTemp('winter')
+          else if(averageTemp > 40 && averageTemp < 80)
+            setTemp('springFall')
+          else setTemp('summer')
         })
-        setWardrobe(build(temp))
+        setWardrobe(createWardrobe(temp))
     }
     catch(err) {
       console.log(err)
@@ -52,18 +56,20 @@ export const App = () => {
         onPress={buildCapsule}
       />
       {
-        wardrobe.footwear.length != 0 &&
+        wardrobe.tops.length != 0 &&
           <>
             <Text>Looks like it's going to be: {temp} degrees F</Text>
             <Text>You should pack the following pieces:</Text>
             {wardrobe.full.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.tops.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.bottoms.map((item, i) => <Text key={i}>{item}</Text>)}
-            {wardrobe.footwear.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.accessories.map((item, i) => <Text key={i}>{item}</Text>)}
-
+            {temp === 'winter' && <Text>Along with a pair of boots and a coat.</Text>}
+            {temp === 'springFall' && <Text>Along with a pair of sneakers.</Text>}
+            {temp === 'summer' && <Text>Along with a pair of sandals or flipflops.</Text>}
+            
             <Text>In order to make these outfits:</Text>
-            {temp < 40 && winterOutfits(days)}
+            {createOutfits(temp, days)}
           </>
       }
       
