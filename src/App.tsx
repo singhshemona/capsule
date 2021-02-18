@@ -32,10 +32,12 @@ export const App = () => {
         setError(false)
         setinfoReceived(true)
         setTemp(Math.round(averageTemp))
-        setWardrobe(createWardrobe(temp))
-        if(averageTemp < 40) setSeason('winter')
-        else if(averageTemp > 40 && averageTemp < 80) setSeason('springFall')
+        if(averageTemp <= 45) setSeason('winter')
+        else if(averageTemp > 45 && averageTemp < 75) setSeason('springFall')
         else setSeason('summer')
+
+        // setWardrobe(createWardrobe(temp))
+        // console.log(createWardrobe(temp))
       })
       .catch(error => {
         console.log("Error: " + error.message);
@@ -86,11 +88,15 @@ export const App = () => {
             <Text>Looks like it's going to be around: {temp} degrees F</Text>
             <Text>You should pack the following pieces:</Text>
 
-            {/* the wardrobe object is what needs to be updated twice */}
             {wardrobe.full.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.tops.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.bottoms.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.accessories.map((item, i) => <Text key={i}>{item}</Text>)}
+
+            {/* RUNNING THE FUNCTION HERE MAKES IT RUN IN THE PROPER ORDER
+            which means in order to fix this 'needs to click submit twice' issue
+            run the createWardrobe function in the way you run createOutfits */}
+            {console.log(createWardrobe(temp))}
 
 
 
