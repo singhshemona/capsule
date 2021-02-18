@@ -77,6 +77,7 @@ const summerCombos = [
 ]
 
 export const createWardrobe = (temperature) => {
+  console.log(temperature)
   let wardrobe = {full: [], tops: [], bottoms: [], accessories: []}
   if (temperature < 40) {
     wardrobe = winter

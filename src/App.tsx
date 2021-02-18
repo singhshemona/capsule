@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TextInput, Button, Keyboard } from 'react-native'
 import { config } from '../config.js'
 import { createOutfits, createWardrobe } from './combinations.js'
 
 export const App = () => {
+  const [error, setError] = useState(false)
   const [city, setCity] = useState('')
   const [days, setDays] = useState('')
   const [temp, setTemp] = useState(0)
@@ -11,31 +12,44 @@ export const App = () => {
   const [infoReceived, setinfoReceived] = useState(false)
   const [wardrobe, setWardrobe] = useState({full: [], tops: [], bottoms: [], accessories: []})
 
+  // useEffect(() => {
+  //   setWardrobe(createWardrobe(temp))
+  // }, [wardrobe])
+
   const buildCapsule = () => {
     setinfoReceived(false)
     Keyboard.dismiss()
-    try {
-      fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${config.KEY}&units=imperial`)
-        .then(response => response.json())
-        .then(json => {
-          let averageTemp = 
-            (json.list[0].main.feels_like + 
-            json.list[9].main.feels_like + 
-            json.list[17].main.feels_like +
-            json.list[25].main.feels_like +
-            json.list[33].main.feels_like) 
-            / 5;
-          setTemp(Math.round(averageTemp))
-          if(averageTemp < 40) setSeason('winter')
-          else if(averageTemp > 40 && averageTemp < 80) setSeason('springFall')
-          else setSeason('summer')
-        })
-        setWardrobe(createWardrobe(temp))
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${config.KEY}&units=imperial`)
+      .then(response => response.json())
+      .then(json => {
+        let averageTemp = 
+          (json.list[0].main.feels_like + 
+          json.list[9].main.feels_like + 
+          json.list[17].main.feels_like +
+          json.list[25].main.feels_like +
+          json.list[33].main.feels_like) 
+          / 5;
+        setError(false)
         setinfoReceived(true)
-    }
-    catch(err) {
-      console.log(err)
-    }
+        setTemp(Math.round(averageTemp))
+        setWardrobe(createWardrobe(temp))
+        if(averageTemp < 40) setSeason('winter')
+        else if(averageTemp > 40 && averageTemp < 80) setSeason('springFall')
+        else setSeason('summer')
+      })
+      .catch(error => {
+        console.log("Error: " + error.message);
+        setError(true)
+      })
+  }
+
+  const reset = () => {
+    setCity('')
+    setDays('')
+    setTemp(0)
+    setSeason('')
+    setinfoReceived(false)
+    setWardrobe({full: [], tops: [], bottoms: [], accessories: []})
   }
   
   return (
@@ -50,30 +64,39 @@ export const App = () => {
       <TextInput
         style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
         onChangeText={num => setDays(num)}
-        // value={days}
+        value={days}
         number-pad
         keyboardType={'number-pad'}
         placeholder={'Enter a number less than 16'}
       />
       
       <Button
-        title="build my capsule"
+        title="Build my capsule"
         color="#f194ff"
         onPress={buildCapsule}
       />
+
+      {error &&
+        <Text>Looks like you didn't enter a valid city. Try revising your spelling or enter a neighboring city.</Text>
+      }
+
       {
-        infoReceived === true &&
+        infoReceived &&
           <>
             <Text>Looks like it's going to be around: {temp} degrees F</Text>
             <Text>You should pack the following pieces:</Text>
+
+            {/* the wardrobe object is what needs to be updated twice */}
             {wardrobe.full.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.tops.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.bottoms.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.accessories.map((item, i) => <Text key={i}>{item}</Text>)}
+
+
+
             {season === 'winter' && <Text>Along with a pair of boots and a coat. Weat the t-shirt as a lining for extra warmth under your nice tops.</Text>}
             {season === 'springFall' && <Text>Along with a pair of sneakers and a light utility jacket or trenchcoat.</Text>}
             {season === 'summer' && <Text>Along with a pair of sandals or flipflops.</Text>}
-            
             <Text>In order to make these outfits:</Text>
             {
               days === '' ?
@@ -81,6 +104,11 @@ export const App = () => {
                 :
                 createOutfits(temp, days).map((outfit:Array<String>, i:number) => <Text key={i}>{outfit.join(", ")}</Text>)
             }
+            <Button
+              title="Start over"
+              color="#f194ff"
+              onPress={reset}
+            />
           </>
       }
     </View>
