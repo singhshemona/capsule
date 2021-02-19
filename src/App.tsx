@@ -88,15 +88,15 @@ export const App = () => {
             <Text>Looks like it's going to be around: {temp} degrees F</Text>
             <Text>You should pack the following pieces:</Text>
 
-            {wardrobe.full.map((item, i) => <Text key={i}>{item}</Text>)}
+            {/* {wardrobe.full.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.tops.map((item, i) => <Text key={i}>{item}</Text>)}
             {wardrobe.bottoms.map((item, i) => <Text key={i}>{item}</Text>)}
-            {wardrobe.accessories.map((item, i) => <Text key={i}>{item}</Text>)}
+            {wardrobe.accessories.map((item, i) => <Text key={i}>{item}</Text>)} */}
 
             {/* RUNNING THE FUNCTION HERE MAKES IT RUN IN THE PROPER ORDER
             which means in order to fix this 'needs to click submit twice' issue
             run the createWardrobe function in the way you run createOutfits */}
-            {console.log(createWardrobe(temp))}
+            {Object.values(createWardrobe(temp)).map((item:any) => item.map((test:any) => <Text>{test}</Text>))}
 
 
 
