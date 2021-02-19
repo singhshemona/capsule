@@ -10,7 +10,7 @@ export const App = () => {
   const [temp, setTemp] = useState(0)
   const [season, setSeason] = useState('')
   const [infoReceived, setinfoReceived] = useState(false)
-  const [wardrobe, setWardrobe] = useState({full: [], tops: [], bottoms: [], accessories: []})
+  // const [wardrobe, setWardrobe] = useState({full: [], tops: [], bottoms: [], accessories: []})
 
   // useEffect(() => {
   //   setWardrobe(createWardrobe(temp))
@@ -51,7 +51,7 @@ export const App = () => {
     setTemp(0)
     setSeason('')
     setinfoReceived(false)
-    setWardrobe({full: [], tops: [], bottoms: [], accessories: []})
+    // setWardrobe({full: [], tops: [], bottoms: [], accessories: []})
   }
   
   return (
@@ -96,7 +96,7 @@ export const App = () => {
             {/* RUNNING THE FUNCTION HERE MAKES IT RUN IN THE PROPER ORDER
             which means in order to fix this 'needs to click submit twice' issue
             run the createWardrobe function in the way you run createOutfits */}
-            {Object.values(createWardrobe(temp)).map((item:any) => item.map((test:any) => <Text>{test}</Text>))}
+            {Object.values(createWardrobe(temp)).map((item:any) => item.map((test:any, i:number) => <Text key={i}>{test}</Text>))}
 
 
 
