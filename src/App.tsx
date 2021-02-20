@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Button, Keyboard } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, TextInput, Button, Keyboard, TouchableOpacity } from 'react-native'
 import { config } from '../config.js'
 import { createOutfits, createWardrobe } from './combinations.js'
 
@@ -10,11 +10,6 @@ export const App = () => {
   const [temp, setTemp] = useState(0)
   const [season, setSeason] = useState('')
   const [infoReceived, setinfoReceived] = useState(false)
-  // const [wardrobe, setWardrobe] = useState({full: [], tops: [], bottoms: [], accessories: []})
-
-  // useEffect(() => {
-  //   setWardrobe(createWardrobe(temp))
-  // }, [wardrobe])
 
   const buildCapsule = () => {
     setinfoReceived(false)
@@ -35,9 +30,6 @@ export const App = () => {
         if(averageTemp <= 45) setSeason('winter')
         else if(averageTemp > 45 && averageTemp < 75) setSeason('springFall')
         else setSeason('summer')
-
-        // setWardrobe(createWardrobe(temp))
-        // console.log(createWardrobe(temp))
       })
       .catch(error => {
         console.log("Error: " + error.message);
@@ -51,32 +43,42 @@ export const App = () => {
     setTemp(0)
     setSeason('')
     setinfoReceived(false)
-    // setWardrobe({full: [], tops: [], bottoms: [], accessories: []})
   }
   
   return (
     <View style={styles.container}>
-      <Text>What city are you going to?</Text>
+      <Text style={styles.intro}>
+        Welcome to Build my Capsule - I'll take it you're going somewhere?
+        Fill out the information below and let's see what you should pack.
+      </Text>
+      <Text style={styles.label}>What city are you going to?</Text>
       <TextInput
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        style={styles.input}
         onChangeText={text => setCity(text)}
         value={city}
+        placeholder={'London, Delhi, etc.'}
+        placeholderTextColor={'#8d99ae'}
       />
-      <Text>For how long?</Text>
+      <Text style={styles.label}>For how long?</Text>
       <TextInput
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        style={styles.input}
         onChangeText={num => setDays(num)}
         value={days}
         number-pad
         keyboardType={'number-pad'}
         placeholder={'Enter a number less than 16'}
+        placeholderTextColor={'#8d99ae'}
       />
       
-      <Button
-        title="Build my capsule"
-        color="#f194ff"
-        onPress={buildCapsule}
-      />
+      {/* <Button
+        title=""
+        color="#6b705c"
+        onPress={}
+      /> */}
+
+      <TouchableOpacity onPress={buildCapsule} style={styles.button}>
+        <Text style={styles.buttonText}>Build my capsule</Text>
+      </TouchableOpacity>
 
       {error &&
         <Text>Looks like you didn't enter a valid city. Try revising your spelling or enter a neighboring city.</Text>
@@ -87,19 +89,7 @@ export const App = () => {
           <>
             <Text>Looks like it's going to be around: {temp} degrees F</Text>
             <Text>You should pack the following pieces:</Text>
-
-            {/* {wardrobe.full.map((item, i) => <Text key={i}>{item}</Text>)}
-            {wardrobe.tops.map((item, i) => <Text key={i}>{item}</Text>)}
-            {wardrobe.bottoms.map((item, i) => <Text key={i}>{item}</Text>)}
-            {wardrobe.accessories.map((item, i) => <Text key={i}>{item}</Text>)} */}
-
-            {/* RUNNING THE FUNCTION HERE MAKES IT RUN IN THE PROPER ORDER
-            which means in order to fix this 'needs to click submit twice' issue
-            run the createWardrobe function in the way you run createOutfits */}
-            {Object.values(createWardrobe(temp)).map((item:any) => item.map((test:any, i:number) => <Text key={i}>{test}</Text>))}
-
-
-
+            {Object.values(createWardrobe(temp)).map((item:any) => item.map((piece:any, i:number) => <Text key={i}>{piece}</Text>))}
             {season === 'winter' && <Text>Along with a pair of boots and a coat. Weat the t-shirt as a lining for extra warmth under your nice tops.</Text>}
             {season === 'springFall' && <Text>Along with a pair of sneakers and a light utility jacket or trenchcoat.</Text>}
             {season === 'summer' && <Text>Along with a pair of sandals or flipflops.</Text>}
@@ -123,9 +113,29 @@ export const App = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    margin: 20,
   },
+  intro: {
+    fontSize: 16,
+    color: '#264653'
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: 6,
+    marginTop: 22,
+    color: '#264653',
+  },
+  input: { 
+    height: 40, 
+    borderColor: '#8d99ae', 
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 6
+  },
+  button: {
+    backgroundColor: '#006466'
+  },
+  buttonText: {
+    color: '#fff'
+  }
 });
