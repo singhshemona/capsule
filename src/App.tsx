@@ -51,7 +51,7 @@ export const App = () => {
         Welcome to Build my Capsule - I'll take it you're going somewhere?
         Fill out the information below and let's see what you should pack.
       </Text>
-      <Text style={styles.label}>What city are you going to?</Text>
+      <Text style={[styles.label, styles.bold]}>What city are you going to?</Text>
       <TextInput
         style={styles.input}
         onChangeText={text => setCity(text)}
@@ -59,7 +59,7 @@ export const App = () => {
         placeholder={'London, Delhi, etc.'}
         placeholderTextColor={'#8d99ae'}
       />
-      <Text style={styles.label}>For how long?</Text>
+      <Text style={[styles.label, styles.bold]}>For how long?</Text>
       <TextInput
         style={styles.input}
         onChangeText={num => setDays(num)}
@@ -69,15 +69,8 @@ export const App = () => {
         placeholder={'Enter a number less than 16'}
         placeholderTextColor={'#8d99ae'}
       />
-      
-      {/* <Button
-        title=""
-        color="#6b705c"
-        onPress={}
-      /> */}
-
       <TouchableOpacity onPress={buildCapsule} style={styles.button}>
-        <Text style={styles.buttonText}>Build my capsule</Text>
+        <Text style={[styles.buttonText, styles.bold]}>Build my capsule</Text>
       </TouchableOpacity>
 
       {error &&
@@ -86,13 +79,15 @@ export const App = () => {
 
       {
         infoReceived &&
-          <>
-            <Text>Looks like it's going to be around: {temp} degrees F</Text>
-            <Text>You should pack the following pieces:</Text>
-            {Object.values(createWardrobe(temp)).map((item:any) => item.map((piece:any, i:number) => <Text key={i}>{piece}</Text>))}
-            {season === 'winter' && <Text>Along with a pair of boots and a coat. Weat the t-shirt as a lining for extra warmth under your nice tops.</Text>}
-            {season === 'springFall' && <Text>Along with a pair of sneakers and a light utility jacket or trenchcoat.</Text>}
-            {season === 'summer' && <Text>Along with a pair of sandals or flipflops.</Text>}
+          <View style={styles.info}>
+            <Text style={styles.spacing}>It's going to be around: {temp} degrees F. You should pack the following pieces:</Text>
+            {Object.values(createWardrobe(temp)).map((item:any) => item.map((piece:any, i:number) => <Text style={styles.italic} key={i}>{'- ' + piece}</Text>))}
+            <Text style={styles.spacing}>
+              {season === 'winter' && 'Along with a pair of boots and a coat. Wear the t-shirt as a lining for extra warmth under your nice tops.'}
+              {season === 'springFall' && 'Along with a pair of sneakers and a light utility jacket or trenchcoat.'}
+              {season === 'summer' && 'Along with a pair of sandals or flipflops.'}
+            </Text>
+
             <Text>In order to make these outfits:</Text>
             {
               days === '' ?
@@ -105,13 +100,22 @@ export const App = () => {
               color="#f194ff"
               onPress={reset}
             />
-          </>
+          </View>
       }
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  bold: {
+    fontWeight: 'bold'
+  },
+  spacing: {
+    lineHeight: 20
+  },
+  italic: {
+    fontStyle: 'italic',
+  },
   container: {
     margin: 20,
   },
@@ -120,9 +124,8 @@ const styles = StyleSheet.create({
     color: '#264653'
   },
   label: {
-    fontWeight: 'bold',
     marginBottom: 6,
-    marginTop: 22,
+    marginTop: 14,
     color: '#264653',
   },
   input: { 
@@ -133,9 +136,18 @@ const styles = StyleSheet.create({
     borderRadius: 6
   },
   button: {
-    backgroundColor: '#006466'
+    marginTop:20,
+    marginBottom:20,
+    padding: 10,
+    backgroundColor: '#006466',
+    borderRadius: 6
   },
   buttonText: {
-    color: '#fff'
-  }
+    color: '#fff',
+    textAlign: 'center',
+  },
+  info: {
+    backgroundColor: '#ebebeb',
+    padding: 16,
+  },
 });
