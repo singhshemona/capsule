@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Button, Keyboard, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Keyboard, TouchableOpacity } from 'react-native'
 import { config } from '../config.js'
 import { createOutfits, createWardrobe } from './combinations.js'
 
@@ -74,32 +74,30 @@ export const App = () => {
       </TouchableOpacity>
 
       {error &&
-        <Text>Looks like you didn't enter a valid city. Try revising your spelling or enter a neighboring city.</Text>
+        <Text style={[styles.error, styles.bold]}>Looks like you didn't enter a valid city. Try revising your spelling or enter a neighboring city.</Text>
       }
 
       {
         infoReceived &&
           <View style={styles.info}>
-            <Text style={styles.spacing}>It's going to be around: {temp} degrees F. You should pack the following pieces:</Text>
+            <Text style={[styles.spacing, styles.bold]}>It's going to be around: {temp} degrees Fahrenheit. You should pack the following pieces:</Text>
             {Object.values(createWardrobe(temp)).map((item:any) => item.map((piece:any, i:number) => <Text style={styles.italic} key={i}>{'- ' + piece}</Text>))}
             <Text style={styles.spacing}>
-              {season === 'winter' && 'Along with a pair of boots and a coat. Wear the t-shirt as a lining for extra warmth under your nice tops.'}
+              {season === 'winter' && 'Along with a pair of boots and a coat. Wear the t-shirt as a lining for your nice knitwear.'}
               {season === 'springFall' && 'Along with a pair of sneakers and a light utility jacket or trenchcoat.'}
               {season === 'summer' && 'Along with a pair of sandals or flipflops.'}
             </Text>
 
-            <Text>In order to make these outfits:</Text>
+            <Text style={[styles.spacing, styles.outfitsHeading, styles.bold]}>From these pieces you can make the following outfits:</Text>
             {
               days === '' ?
-                <Text>Oops, looks like you did not set the length of your vacation. Try entering the amount of days in the textbox.</Text>
+                <Text style={[styles.italic]}>Oops, you didn't set the length of your vacation. Try entering the amount of days in the textbox.</Text>
                 :
-                createOutfits(temp, days).map((outfit:Array<String>, i:number) => <Text key={i}>{outfit.join(", ")}</Text>)
+                createOutfits(season, days).map((outfit:Array<String>, i:number) => <Text style={styles.italic} key={i}>{'- ' + outfit.join(" + ")}</Text>)
             }
-            <Button
-              title="Start over"
-              color="#f194ff"
-              onPress={reset}
-            />
+            <TouchableOpacity onPress={reset} style={styles.button}>
+              <Text style={[styles.buttonText, styles.bold]}>Start over</Text>
+            </TouchableOpacity>
           </View>
       }
     </View>
@@ -137,7 +135,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop:20,
-    marginBottom:20,
     padding: 10,
     backgroundColor: '#006466',
     borderRadius: 6
@@ -149,5 +146,17 @@ const styles = StyleSheet.create({
   info: {
     backgroundColor: '#ebebeb',
     padding: 16,
+    marginTop: 20
   },
+  outfitsHeading: {
+    borderTopColor: '#8d99ae', 
+    borderTopWidth: 1,
+    marginTop: 10,
+    paddingTop: 10
+  },
+  error: {
+    color: '#9f1b1b',
+    fontSize: 18,
+    marginTop: 20
+  }
 });
