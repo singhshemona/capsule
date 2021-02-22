@@ -9,6 +9,7 @@ npm-debug.*
 *.orig.*
 web-build/
 config.js
+pc-api-5146262117076569645-419-80f0da7d977e.json
 
 # macOS
 .DS_Store

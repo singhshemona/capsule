@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Keyboard, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TextInput, Keyboard, TouchableOpacity } from 'react-native'
 import { config } from '../config.js'
 import { createOutfits, createWardrobe } from './combinations.js'
 
@@ -79,7 +79,7 @@ export const App = () => {
 
       {
         infoReceived &&
-          <View style={styles.info}>
+          <ScrollView style={styles.info}>
             <Text style={[styles.spacing, styles.bold]}>It's going to be around: {temp} degrees Fahrenheit. You should pack the following pieces:</Text>
             {Object.values(createWardrobe(temp)).map((item:any) => item.map((piece:any, i:number) => <Text style={styles.italic} key={i}>{'- ' + piece}</Text>))}
             <Text style={styles.spacing}>
@@ -98,7 +98,7 @@ export const App = () => {
             <TouchableOpacity onPress={reset} style={styles.button}>
               <Text style={[styles.buttonText, styles.bold]}>Start over</Text>
             </TouchableOpacity>
-          </View>
+          </ScrollView>
       }
     </View>
   );
@@ -115,7 +115,10 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   container: {
-    margin: 20,
+    paddingTop: 70,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 20,
   },
   intro: {
     fontSize: 16,
