@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, TextInput, Keyboard, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TextInput, Keyboard, TouchableOpacity, StatusBar } from 'react-native'
 import { config } from '../config.js'
 import { createOutfits, createWardrobe } from './combinations.js'
 
@@ -46,7 +46,7 @@ export const App = () => {
   }
   
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.intro}>
         Welcome to Build my Capsule - I'll take it you're going somewhere?
         Fill out the information below and let's see what you should pack.
@@ -79,9 +79,9 @@ export const App = () => {
 
       {
         infoReceived &&
-          <ScrollView style={styles.info}>
+          <View style={styles.info}>
             <Text style={[styles.spacing, styles.bold]}>It's going to be around: {temp} degrees Fahrenheit. You should pack the following pieces:</Text>
-            {Object.values(createWardrobe(temp)).map((item:any) => item.map((piece:any, i:number) => <Text style={styles.italic} key={i}>{'- ' + piece}</Text>))}
+            {Object.values(createWardrobe(temp)).map((item:any) => item.map((piece:any, i:number) => <Text style={[styles.spacing, styles.italic]} key={i}>{'- ' + piece}</Text>))}
             <Text style={styles.spacing}>
               {season === 'winter' && 'Along with a pair of boots and a coat. Wear the t-shirt as a lining for your nice knitwear.'}
               {season === 'springFall' && 'Along with a pair of sneakers and a light utility jacket or trenchcoat.'}
@@ -93,14 +93,14 @@ export const App = () => {
               days === '' ?
                 <Text style={[styles.italic]}>Oops, you didn't set the length of your vacation. Try entering the amount of days in the textbox.</Text>
                 :
-                createOutfits(season, days).map((outfit:Array<String>, i:number) => <Text style={styles.italic} key={i}>{'- ' + outfit.join(" + ")}</Text>)
+                createOutfits(season, days).map((outfit:Array<String>, i:number) => <Text style={[styles.spacing, styles.italic]} key={i}>{'- ' + outfit.join(" + ")}</Text>)
             }
             <TouchableOpacity onPress={reset} style={styles.button}>
               <Text style={[styles.buttonText, styles.bold]}>Start over</Text>
             </TouchableOpacity>
-          </ScrollView>
+          </View>
       }
-    </View>
+    </ScrollView>
   );
 }
 
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   container: {
-    paddingTop: 70,
+    marginTop: StatusBar.currentHeight ? (StatusBar.currentHeight / 2) : 30,
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
