@@ -20,3 +20,6 @@ Open [http://localhost:19002/](http://localhost:19002/) to view it in the browse
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+
+## Privacy Policy:
+You will not be requested for any data and no user or device data will be stored or used in any way.
