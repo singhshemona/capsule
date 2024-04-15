@@ -4,8 +4,10 @@ For those of you who prefer traveling light but still want to express your style
 
 Potential next steps: allow users to upload pictures of their 20-25 most worn pieces. You can categorize which each item would fall under (top, bottom, accessory, etc). Then the app would return ideal pieces to pack and potential outfits *from your own closet* instead of pre-built staples. Also allow for vacations up to 30 days.
 
-## To test out:
-(Coming soon)
+The goal of this project was 3-fold:
+1. Help me pack more efficiently
+2. Learn how to build for mobile (React Native / Expo)
+3. Launch an app on the Google Play Store for the first time
 
 ## To Contribute:
 1. `git clone https://github.com/singhshemona/capsule.git`
